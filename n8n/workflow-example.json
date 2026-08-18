@@ -1,0 +1,97 @@
+// n8n workflow example (simplified): import into n8n as JSON and wire nodes appropriately.
+// This is a conceptual example and may need editing to match your n8n setup.
+{
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": []
+        }
+      },
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 250]
+    },
+    {
+      "parameters": {
+        "prompt": "<COPY PROMPT Discover Prerequisites.md CONTENT HERE>",
+        "model": "gpt-4o-mini",
+        "temperature": 0.2
+      },
+      "name": "Discover Prerequisites (OpenAI)",
+      "type": "n8n-nodes-base.openai",
+      "typeVersion": 1,
+      "position": [450, 250]
+    },
+    {
+      "parameters": {
+        "functionCode": "<PASTE Parse Prerequisite JSON.js CODE HERE>"
+      },
+      "name": "Parse Prerequisite JSON",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [650, 250]
+    },
+    {
+      "parameters": {
+        "prompt": "<COPY PROMPT Generate Quiz.md CONTENT HERE>",
+        "model": "gpt-4o-mini",
+        "temperature": 0.3
+      },
+      "name": "Generate Quiz (OpenAI)",
+      "type": "n8n-nodes-base.openai",
+      "typeVersion": 1,
+      "position": [450, 450]
+    },
+    {
+      "parameters": {
+        "functionCode": "<PASTE Parse Quiz JSON.js CODE HERE>"
+      },
+      "name": "Parse Quiz JSON",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [650, 450]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Discover Prerequisites (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discover Prerequisites (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Parse Prerequisite JSON",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Quiz (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Quiz (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Parse Quiz JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
