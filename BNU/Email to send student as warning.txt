@@ -1,0 +1,19 @@
+Dear {{ $json.studentName }},
+
+This is an automated attendance warning.
+
+According to the attendance record, your current attendance is:
+
+{{ $json.attendancePercentage }}%
+
+Total classes counted: {{ $json.totalClasses }}
+Classes attended: {{ $json.presentClasses }}
+
+Your attendance is currently below the required 50% threshold.
+
+Please make sure to attend upcoming classes regularly and improve your attendance.
+
+If you believe this attendance record is incorrect, please contact your instructor.
+
+Regards,
+Academic Administration
