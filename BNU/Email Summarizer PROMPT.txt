@@ -27,7 +27,7 @@ FORMAT THE FINAL EMAIL LIKE THIS:
 
 Subject: Daily Email Summary – [Date]
 
-Hello,
+Assalam o Alikum,
 
 Here is a summary of all emails received yesterday:
 • From: [Sender] | Subject: [Subject]
