@@ -1,0 +1,182 @@
+{
+  "name": "Assignment Auto-Grader",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "grade-assignment",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -752,
+        176
+      ],
+      "id": "e7cc177c-584f-4a24-bc00-30eb69ec26dc",
+      "name": "Webhook",
+      "webhookId": "02a06dd3-2b59-45c1-928d-136bf67b11b7"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "GPT-5-NANO"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=You are grading a university assignment submission (attached document).\n\nUse this generic rubric out of 100:\n- Clarity & Structure (20 pts)\n- Correctness & Accuracy (30 pts)\n- Depth of Analysis (25 pts)\n- Originality (15 pts)\n- Presentation (10 pts)\n\nAssignment context: {{ $('Webhook').item.json.body.assignmentTitle }}\n\nWrite your response as plain text only — no JSON, no markdown, no headers, no asterisks or bullet symbols. Follow exactly this structure, each on its own line:\n\nScore: <number>/100\n\nFeedback: <3-4 sentences of constructive, specific feedback for the student, written directly to them in second person>\n\nDo not include anything else before or after this."
+            },
+            {
+              "content": "=here is the assignment:\n {{ $json.data }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        176
+      ],
+      "id": "e789848e-6430-4df7-8334-9ed26d3722c0",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nX6eiKGB2aynUBe1",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.body.assignmentFile.match(/[-\\w]{25,}/)[0] }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -576,
+        176
+      ],
+      "id": "519f340c-4a14-42f0-aa5a-02f7b7fcca9b",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "0lQO0A6jkyjNi2Xc",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "id": "09f20e72-b79b-458f-9696-b6e25bcf2ac5",
+      "name": "Extract Text From File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        176
+      ],
+      "notes": "If submissions are Word docs instead of PDFs, change 'operation' to the docx option this node supports."
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body.studentEmail }}",
+        "subject": "=Your Assignment Grade: {{ $('Webhook').item.json.body.assignmentTitle }}",
+        "emailType": "text",
+        "message": "=Hi {{ $('Webhook').item.json.body.studentName }},\n\nHere is your automated grading result:\n\n{{ $json.output[0].content[0].text }}\n\nThis is an automated first-pass grade. Please reach out to your instructor if you have questions.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        64,
+        176
+      ],
+      "id": "c0176108-74bc-4d82-88a2-e36a35a5feee",
+      "name": "Send a message",
+      "webhookId": "07aea5f0-7640-4d10-bd3f-666ffd083f98",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "j4vNGXzxwR1lf23b",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract Text From File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Text From File": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "bdb6fe1f-d00f-434f-8984-bd3effe61cef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ba8085abe8df6bce17d4f8d109169262ad04993d9a760fccd867bc4be0b6886b"
+  },
+  "nodeGroups": [],
+  "id": "9fQ5R7IH4qSx1bmt",
+  "tags": []
+}
