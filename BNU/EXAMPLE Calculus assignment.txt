@@ -1,0 +1,105 @@
+CALCULUS ASSIGNMENT — SOLVED
+Topic: Limits, Differentiation and Integration
+
+1. LIMITS
+
+(a) lim(x→2) (x²−4)/(x−2)
+= lim(x→2) [(x−2)(x+2)/(x−2)]
+= 2+2 = 4.
+
+(b) lim(x→0) sin x/x = 1.
+
+(c) lim(x→∞) (3x²+5x−1)/(x²−4)
+Divide by x²:
+= lim(x→∞) (3+5/x−1/x²)/(1−4/x²)
+= 3.
+
+2. DIFFERENTIATION
+
+(a) y = 5x⁴−3x²+7x−9
+dy/dx = 20x³−6x+7.
+
+(b) y = (3x²+2x−1)⁵
+Using the chain rule:
+dy/dx = 5(3x²+2x−1)⁴(6x+2).
+
+(c) y = sin x + cos x
+dy/dx = cos x − sin x.
+
+3. TANGENT LINE
+
+Find the tangent to f(x)=x²+3x−4 at x=2.
+
+f(2)=4+6−4=6.
+f′(x)=2x+3, so f′(2)=7.
+
+Using y−y₁=m(x−x₁):
+y−6=7(x−2)
+Therefore, y = 7x−8.
+
+4. APPLICATION OF DERIVATIVES
+
+f(x)=x³−6x²+9x+2
+
+f′(x)=3x²−12x+9
+=3(x−1)(x−3).
+
+Critical points: x=1 and x=3.
+
+f(1)=1−6+9+2=6.
+f(3)=27−54+27+2=2.
+
+Using the second derivative:
+f″(x)=6x−12.
+
+f″(1)=−6 < 0 → local maximum at (1,6).
+f″(3)=6 > 0 → local minimum at (3,2).
+
+5. INTEGRATION
+
+(a) ∫(4x³−6x+2)dx
+= x⁴−3x²+2x+C.
+
+(b) ∫₀²(x²+3x+1)dx
+= [x³/3 + 3x²/2 + x]₀²
+= 8/3 + 6 + 2
+= 32/3 square units.
+
+(c) ∫2x(x²+1)⁴dx
+Let u=x²+1, du=2x dx.
+Therefore:
+∫u⁴du = u⁵/5+C
+= (x²+1)⁵/5+C.
+
+6. AREA UNDER A CURVE
+
+For y=x²+1 from x=0 to x=3:
+
+Area = ∫₀³(x²+1)dx
+= [x³/3+x]₀³
+= 9+3
+= 12 square units.
+
+7. MOTION PROBLEM
+
+s(t)=t³−6t²+9t+4.
+
+Velocity:
+v(t)=s′(t)=3t²−12t+9.
+
+Acceleration:
+a(t)=v′(t)=6t−12.
+
+At t=2:
+v(2)=12−24+9=−3 m/s.
+a(2)=12−12=0 m/s².
+
+8. CONCEPTUAL QUESTION
+
+A derivative measures the instantaneous rate of change of a function, such as velocity being the rate of change of position.
+
+An integral represents accumulation. A definite integral can be used to find quantities such as area or displacement.
+
+CONCLUSION
+
+Calculus provides mathematical tools for studying change and accumulation. Derivatives are mainly used for rates of change and optimization, while integrals are used for area, accumulation, and total change.
